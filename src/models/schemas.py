@@ -10,7 +10,7 @@ This module defines the fundamental data structures used throughout the system:
 
 from typing import Any, Dict, List, Optional
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 import uuid
 from datetime import datetime
 
@@ -47,9 +47,8 @@ class AgentDefinition(BaseModel):
     retry_count: int = Field(default=3, description="Number of retry attempts")
     timeout_seconds: int = Field(default=30, description="Timeout in seconds")
     
-    class Config:
-        """Pydantic configuration for AgentDefinition."""
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "agent_id": "data_processor_1",
                 "agent_type": "data_processor",
@@ -59,6 +58,7 @@ class AgentDefinition(BaseModel):
                 "timeout_seconds": 30
             }
         }
+    )
 
 
 class WorkflowRequest(BaseModel):
@@ -72,9 +72,8 @@ class WorkflowRequest(BaseModel):
     agents: List[AgentDefinition] = Field(..., description="List of agents in the workflow")
     initial_input: Dict[str, Any] = Field(default_factory=dict, description="Initial input data")
     
-    class Config:
-        """Pydantic configuration for WorkflowRequest."""
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "workflow_id": "workflow_123",
                 "agents": [
@@ -94,6 +93,7 @@ class WorkflowRequest(BaseModel):
                 "initial_input": {"query": "SELECT * FROM data"}
             }
         }
+    )
 
 
 class AgentResult(BaseModel):
@@ -106,13 +106,12 @@ class AgentResult(BaseModel):
     agent_id: str = Field(..., description="Identifier of the executed agent")
     status: AgentStatus = Field(..., description="Execution status")
     output: Optional[Dict[str, Any]] = Field(None, description="Agent output data")
-    error: Optional[str] = Field(None, description="Error message if execution failed")
-    execution_time: Optional[float] = Field(None, description="Execution duration in seconds")
+    error: Optional[str] = Field(None, description="Error message if the agent failed")
+    execution_time: Optional[float] = Field(None, description="Time taken to execute in seconds")
     retry_count: int = Field(default=0, description="Number of retries performed")
     
-    class Config:
-        """Pydantic configuration for AgentResult."""
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "agent_id": "data_processor_1",
                 "status": "completed",
@@ -122,6 +121,7 @@ class AgentResult(BaseModel):
                 "retry_count": 0
             }
         }
+    )
 
 
 class WorkflowResponse(BaseModel):
@@ -137,9 +137,8 @@ class WorkflowResponse(BaseModel):
     total_duration: Optional[float] = Field(None, description="Total workflow duration in seconds")
     created_at: datetime = Field(default_factory=datetime.now, description="Workflow creation timestamp")
     
-    class Config:
-        """Pydantic configuration for WorkflowResponse."""
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "workflow_id": "workflow_123",
                 "status": "completed",
@@ -161,3 +160,4 @@ class WorkflowResponse(BaseModel):
                 "created_at": "2024-01-01T00:00:00"
             }
         }
+    )
