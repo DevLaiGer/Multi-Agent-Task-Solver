@@ -2,8 +2,9 @@
 
 import httpx
 import pytest
+import pytest_asyncio
 
-from src.agents import BaseAgent, agent_registry
+from src.agents import BaseAgent, agent_registry, register_builtin_agents
 from src.api import create_app
 
 
@@ -18,6 +19,7 @@ def reset_agent_registry():
     existing = list(agent_registry.list_agents())
     for agent_type in existing:
         agent_registry.unregister(agent_type)
+    register_builtin_agents()
     yield
     for agent_type in list(agent_registry.list_agents()):
         agent_registry.unregister(agent_type)
@@ -29,7 +31,7 @@ def app():
     return create_app()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def client(app):
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:

@@ -7,7 +7,7 @@ from typing import Any, Dict
 from fastapi import APIRouter, FastAPI, HTTPException, status
 
 from .. import __version__
-from ..agents import agent_registry
+from ..agents import agent_registry, register_builtin_agents
 from ..core import ExecutionEngine
 from ..models import WorkflowRequest, WorkflowResponse
 from ..tools import register_builtin_tools, tool_registry
@@ -120,6 +120,7 @@ def create_app() -> FastAPI:
 
     engine = ExecutionEngine()
     register_builtin_tools()
+    register_builtin_agents()
     app.state.engine = engine
 
     app.include_router(_create_router(engine))
