@@ -1,0 +1,21 @@
+# Multi-Agent Task Solver - Dependencies
+# Core Python version: 3.8+
+
+# Web Framework
+fastapi==0.104.1
+uvicorn==0.24.0
+
+# Data Validation and Serialization
+pydantic==2.5.0
+
+# Graph Management for Workflow DAG
+networkx==3.2.1
+
+# HTTP Multipart Support
+python-multipart==0.0.6
+
+# Optional Development Dependencies (uncomment as needed)
+# pytest==7.4.3
+# pytest-asyncio==0.21.1
+# pytest-cov==4.1.0
+# httpx==0.25.1
