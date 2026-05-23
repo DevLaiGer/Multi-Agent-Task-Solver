@@ -222,5 +222,4 @@ Dev/testing (optional): `pytest`, `pytest-asyncio`, `httpx`
 
 ---
 
-**Version:** 1.0.0  
-**Maintainers:** Multi-Agent Task Solver Team
+**Version:** 1.0.0
